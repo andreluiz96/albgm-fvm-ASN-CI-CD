@@ -9,7 +9,7 @@ env:
   ECR_REPO: todo-list-dp007
   TF_LOG: DEBUG
   TF_VAR_node_role_arn: arn:aws:iam::325583868777:role/role-for-eksDeepDiveFrankfurt-eks-cluster
-  TF_VAR_ssh_key_name: lsb5-msdp
+  TF_VAR_ssh_key_name: albgm-fvm
 
 jobs:
   deploy:
