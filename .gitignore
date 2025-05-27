@@ -1,0 +1,25 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Terraform
+*.tfstate
+*.tfstate.backup
+.terraform/
+terraform.tfvars
+
+# Docker
+*.tar
+
+# Diretórios do sistema
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# GitHub Actions
+# (nada aqui precisa ser ignorado)
+
+# Logs gerais
+*.log

@@ -1,0 +1,44 @@
+name: Destruir Infraestrutura
+
+on:
+  workflow_dispatch:
+
+env:
+  AWS_REGION: eu-central-1
+  TF_LOG: DEBUG
+  TF_VAR_node_role_arn: arn:aws:iam::325583868777:role/role-for-eksDeepDiveFrankfurt-eks-cluster
+  TF_VAR_ssh_key_name: lsb5-msdp
+  TF_VAR_todo_image: dummy
+
+jobs:
+  destroy:
+    name: Executa terraform destroy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Configurar credenciais AWS com confiança
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Instalar Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Gerar arquivo .tfvars com variáveis dummy
+        run: |
+          cat > terraform/terraform.tfvars <<EOF
+          node_role_arn = "${TF_VAR_node_role_arn}"
+          ssh_key_name  = "${TF_VAR_ssh_key_name}"
+          todo_image    = "${TF_VAR_todo_image}"
+          EOF
+
+      - name: Executar terraform destroy
+        run: |
+          cd terraform
+          terraform init
+          terraform destroy -auto-approve
